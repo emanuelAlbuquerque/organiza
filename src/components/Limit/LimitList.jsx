@@ -1,24 +1,21 @@
 import React from "react";
+import { Progress } from "@nextui-org/react";
+import { BadgeColor } from "../BadgeColor";
 
-import {Progress} from "@nextui-org/react";
-
-const LimitList  = props => {
-    return props.items.map(item => (
-        <div className="border-b-1 border-gray-200 last:border-none">
-          <div className="flex justify-between items-center p-3 rounded-xl">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-full"
-                style={{ backgroundColor: item.color }}
-              ></div>
-              <p className="text-dark-title">{item.title}</p>
-            </div>
-            <div className="flex flex-col gap-6 w-full max-w-md">
-              {item.bar}  <Progress size="lg" aria-label="Loading..." value={50} />
-            </div>
-          </div>
+const LimitList = props => {
+  return props.items.map(item => (
+    <div className="flex items-center gap-2 mb-5 last:mb-0">
+      <BadgeColor color={item.color} />
+      <div className="w-full">
+        <div className="flex justify-between items-center mb-1">
+          <h2 className="text-sm font-semibold text-dark-title">Alimentação</h2>
+          <p className="text-sm text-dark-title font-semibold">10,00 <span className="text-gray-subtitle">de 30,00</span></p>
         </div>
-      ))
-    }
-    
-    export { LimitList }
+        <Progress size="md" aria-label="Loading..." value={50} />
+      </div>
+    </div>
+
+  ))
+}
+
+export { LimitList }

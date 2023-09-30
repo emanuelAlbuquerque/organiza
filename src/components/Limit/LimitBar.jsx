@@ -34,14 +34,9 @@ const itemsGastos = [
   ]
 
 const LimitBar = () => {
-
     return (
         <div>
             <div>
-                <div>
-                    <p className="text-dark-title font-semibold">despesas</p>
-                </div>
-    
                 <LimitList items={itemsGastos} />
             </div>
         </div>
