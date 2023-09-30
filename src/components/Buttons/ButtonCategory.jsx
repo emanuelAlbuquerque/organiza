@@ -1,7 +1,7 @@
 import { Divider } from "@nextui-org/react"
 import { BadgeColor } from "../BadgeColor"
 
-export const ButtonCategoria = (props) => {
+export const ButtonCategory = (props) => {
 
     return (
         <>
