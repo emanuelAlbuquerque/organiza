@@ -35,15 +35,15 @@ export const CategoriasView = () => {
               }
             >
             <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
-            <ButtonCategoria label='Alimentação' color='red'/>
+            <ButtonCategoria label='Assinaturas e serviços' color='red'/>
+            <ButtonCategoria label='Bares e restaurantes' color='red'/>
+            <ButtonCategoria label='Casa' color='red'/>
+            <ButtonCategoria label='Compras' color='red'/>
+            <ButtonCategoria label='Cuidados pessoais' color='red'/>
+            <ButtonCategoria label='Dívidas e empréstimos' color='red'/>
+            <ButtonCategoria label='Educação' color='red'/>
+            <ButtonCategoria label='Família e filhos' color='red'/>
+            <ButtonCategoria label='Impostos e Taxas' color='red'/>
 
             </Tab>
             <Tab
@@ -56,18 +56,9 @@ export const CategoriasView = () => {
               }
 
             >
-              <button class="w-full text-black mt-20 py-2 px-4 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-                <span class="mr-2"></span>
-                <span>Empréstimos</span>
-              </button><Divider className="my-1" />
-              <button class="w-full text-black mt-4 py-2 px-4 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-                <span class="mr-2"></span>
-                <span>Investimentos</span>
-              </button><Divider className="my-1" />
-              <button class="w-full text-black mt-4 py-2 px-4 rounded-lg flex items-center transition duration-300 ease-in-out hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300">
-                <span class="mr-2"></span>
-                <span>Salário</span>
-              </button><Divider className="my-1" />
+              <ButtonCategoria label='Impostos e Taxas' color='red'/>
+              <ButtonCategoria label='Impostos e Taxas' color='red'/>
+              <ButtonCategoria label='Impostos e Taxas' color='red'/>
 
             </Tab>
           </Tabs>
