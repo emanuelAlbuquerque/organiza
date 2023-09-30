@@ -24,6 +24,11 @@ export const Header = () => {
             Limite de Gastos
           </Link>
         </NavbarItem>
+        <NavbarItem>
+          <Link href="#" className='text-white'>
+            Categorias
+          </Link>
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent as="div" justify="end">
