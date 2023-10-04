@@ -5,6 +5,11 @@ function parceValueToBRL(value) {
   })
 }
 
+function parsePorcentage(value, total) {
+  return value * 100 / total
+}
+
 export {
-  parceValueToBRL
+  parceValueToBRL,
+  parsePorcentage
 }

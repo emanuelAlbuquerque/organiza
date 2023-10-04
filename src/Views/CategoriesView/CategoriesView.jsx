@@ -1,10 +1,26 @@
 import { Container } from '@/components/Container/Container'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Tabs, Tab, Button } from '@nextui-org/react'
 import { ButtonCategory } from '@/components/Buttons/ButtonCategory'
 import { PlusIcon } from '@/components/Icons/Plus'
+import { CategoriesController } from '@/controllers/CategoriesController'
 
 export const CategoriesView = () => {
+  const [categoryExpense, setCategoryExpense] = useState([])
+  const [categoryRecipes, setCategoryRecipes] = useState([])
+
+  useEffect(() => {
+    listCategories()
+  }, [])
+
+  async function listCategories() {
+    const categoriesRecipes = await CategoriesController.listCategoriesRecipes()
+    const categoriesExpense = await CategoriesController.listCategoriesExpenses()
+
+    setCategoryExpense(categoriesExpense)
+    setCategoryRecipes(categoriesRecipes)
+  }
+
   return (
     <Container>
       <div className="w-full p-8 bg-white shadow-xl rounded-lg px-6 ">
@@ -32,35 +48,32 @@ export const CategoriesView = () => {
             }}
           >
             <Tab
-              key="photos"
+              key="despesas"
               title={
                 <div className="flex items-center space-x-2 text-right  ">
                   <span>Despesas</span>
                 </div>
               }
             >
-              <ButtonCategory label="Alimentação" color="red" />
-              <ButtonCategory label="Assinaturas e serviços" color="red" />
-              <ButtonCategory label="Bares e restaurantes" color="red" />
-              <ButtonCategory label="Casa" color="red" />
-              <ButtonCategory label="Compras" color="red" />
-              <ButtonCategory label="Cuidados pessoais" color="red" />
-              <ButtonCategory label="Dívidas e empréstimos" color="red" />
-              <ButtonCategory label="Educação" color="red" />
-              <ButtonCategory label="Família e filhos" color="red" />
-              <ButtonCategory label="Impostos e Taxas" color="red" />
+              {
+                categoryExpense.map(category => (
+                  <ButtonCategory label={category.name} color={category.color} />
+                ))
+              }
             </Tab>
             <Tab
-              key="music"
+              key="recipes"
               title={
                 <div className="flex items-center space-x-2 ">
                   <span>Receitas</span>
                 </div>
               }
             >
-              <ButtonCategory label="Impostos e Taxas" color="red" />
-              <ButtonCategory label="Impostos e Taxas" color="red" />
-              <ButtonCategory label="Impostos e Taxas" color="red" />
+              {
+                categoryRecipes.map(category => (
+                  <ButtonCategory label={category.name} color={category.color} />
+                ))
+              }
             </Tab>
           </Tabs>
         </div>

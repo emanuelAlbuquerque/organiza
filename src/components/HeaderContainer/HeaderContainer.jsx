@@ -2,10 +2,9 @@ import PagerMonth from '../PagerMonth/PagerMonth'
 
 const HeaderContainer = props => {
   return (
-    <div style={{ position: 'relative' }}>
+    <div>
       <h1
         className="font-bold text-xl"
-        style={{ position: 'absolute', left: 0 }}
       >
         {props.title}
       </h1>

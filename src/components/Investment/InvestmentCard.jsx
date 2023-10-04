@@ -1,26 +1,53 @@
-import { React, useState } from 'react'
-import { Card, CardBody } from '@nextui-org/react'
+import { React, useEffect, useState } from 'react'
+import {
+  Card,
+  CardBody,
+  Table,
+  TableBody,
+  TableCell,
+  TableColumn,
+  TableHeader,
+  TableRow,
+  Tooltip
+} from '@nextui-org/react'
 import { Input } from '@nextui-org/react'
 import { Button } from '@nextui-org/react'
 import { InvestimentoModal } from '../Modals/IntestmentModal'
 import moment from 'moment'
 import { InputValue } from '../Inputs/InputValue'
-import { ActionDanger } from '../ActionsNotifications/ActionDanger'
+import { ID } from '@/services/generateUUID'
+import { InvestmentController } from '@/controllers/InvestmentController'
+import { NotificationAction } from '@/services/notifications'
+import { parceValueToBRL } from '@/services/format'
+import {
+  getCurrentDateToFormatYYYYMMDD,
+  parseDateFromDDMMYYYY
+} from '@/services/dates'
+import { A_RETIRAR } from '@/constants/status'
 
 const InvestmentCard = props => {
   const [isOpenModal, setIsOpenModal] = useState(false)
   const [value, setValue] = useState('')
-  const [date, setDate] = useState('')
-  const rate = 0.05
+  const [date, setDate] = useState(getCurrentDateToFormatYYYYMMDD())
+  const [investments, setInvestments] = useState([])
   const [message, setMessage] = useState('')
-  const [error, setError] = useState('')
+
+  useEffect(() => {
+    listInvestment()
+  }, [])
+
+  const listInvestment = async () => {
+    const res = await InvestmentController.listInvestments()
+
+    setInvestments(res)
+  }
 
   const openModal = () => {
     if (value && date) {
       previewInvestment()
       setIsOpenModal(true)
     } else {
-      setError('Preencha todos os campos')
+      NotificationAction.notificationWarning('Preencha todos os campos.')
     }
   }
 
@@ -35,40 +62,60 @@ const InvestmentCard = props => {
   const getDiffDates = date => {
     const newDate = moment(date, 'YYYY-MM-DD').startOf('day')
     const currentDate = moment().startOf('day')
+    console.log(newDate.diff(currentDate, 'days'))
     return newDate.diff(currentDate, 'days')
   }
 
-  const calculateCompoundInterest = () => {
-    const p = parseFloat(value)
-    const r = rate
-    const t = getDiffDates(date)
-    const n = 12
-    const resultAmount = p * Math.pow(1 + r / n, n * t)
-
-    return resultAmount.toFixed(2)
+  const calculateCompoundInterest = (value, date) => {
+    const rateByMonth = 0.05 / 30
+    return parseFloat(value) * Math.pow(1 + rateByMonth, getDiffDates(date))
   }
 
-  const confirmInvestment = () => {
-    if (value && date) {
-      const valueTotal = calculateCompoundInterest()
+  // Formula: Montante = Valor Inicial * (1 + Taxa de Juros Diária) ^ Número de Dias
 
-      console.log(valueTotal)
+  const confirmInvestment = async () => {
+    if (value && date) {
+      const req = {
+        id: ID(),
+        value: parseFloat(value),
+        status: A_RETIRAR,
+        expectedDate: new Date(date),
+        dateEntry: moment().format('YYYY-MM-DD').concat('T00:00:00.000Z')
+      }
+
+      const res = InvestmentController.createInvestment(req)
+
+      if (res) {
+        NotificationAction.notificationSucesss('Investimento adicionado.')
+        clearFiels()
+      } else {
+        NotificationAction.notificationError(
+          'Erro ao adicionar o investimento.'
+        )
+      }
     } else {
-      setError('Preencha todos os campos')
+      NotificationAction.notificationWarning('Preencha todos os campos.')
     }
   }
 
+  const clearFiels = () => {
+    setValue('')
+    setDate('')
+  }
+
   const previewInvestment = () => {
-    const value = calculateCompoundInterest()
+    const amount = calculateCompoundInterest(value, date)
 
     setMessage(
-      `O Investimento após ${getDiffDates(date)} dia(s) renderá R$ ${value}`
+      `Após ${getDiffDates(date)} dia(s) o valor final será: ${parceValueToBRL(
+        amount
+      )}`
     )
   }
 
   return (
-    <div className="w-full max-w-lg m-auto mt-8">
-      <Card className="py-4">
+    <div className="w-full m-auto mt-8 flex flex-col justify-center items-center">
+      <Card className="py-4 w-full max-w-xl mb-8">
         <CardBody className="pb-0 pt-2 px-4 flex-col items-start">
           <div className="w-full mb-5">
             <InputValue
@@ -88,12 +135,6 @@ const InvestmentCard = props => {
             className="mb-5"
           />
 
-          {error && (
-            <div className="my-3 w-full">
-              <ActionDanger error={error} />
-            </div>
-          )}
-
           <div className="flex justify-between items-center w-full">
             <Button color="warning" onClick={openModal}>
               Calcular Investimento
@@ -107,6 +148,42 @@ const InvestmentCard = props => {
           </div>
         </CardBody>
       </Card>
+
+      <Table removeWrapper aria-label="Example static collection table">
+        <TableHeader>
+          <TableColumn>Data Entrada</TableColumn>
+          <TableColumn>Valor Investido</TableColumn>
+          <TableColumn>Prev.Retirada</TableColumn>
+          <TableColumn>Prev.Valor Estimado</TableColumn>
+          <TableColumn></TableColumn>
+        </TableHeader>
+        <TableBody>
+          {investments.map(investment => (
+            <TableRow key={InvestimentoModal.id}>
+              <TableCell>
+                {parseDateFromDDMMYYYY(investment.dateEntry)}
+              </TableCell>
+              <TableCell>{parceValueToBRL(investment.value)}</TableCell>
+              <TableCell>{parseDateFromDDMMYYYY(investment.expectedDate)}</TableCell>
+              <TableCell>
+                {parceValueToBRL(
+                  calculateCompoundInterest(
+                    investment.value,
+                    investment.expectedDate
+                  )
+                )}
+              </TableCell>
+              <TableCell>
+                <div className="relative flex items-center gap-2 justify-center">
+                  <Tooltip content="Retirar Investimento">
+                    <Button color="success">Sacar</Button>
+                  </Tooltip>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
 
       <InvestimentoModal
         isOpen={isOpenModal}

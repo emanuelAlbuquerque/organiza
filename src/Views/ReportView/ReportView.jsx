@@ -3,10 +3,10 @@ import { Tab, Tabs } from '@nextui-org/react'
 import { Container } from '@/components/Container/Container'
 import { HeaderContainer } from '@/components/HeaderContainer/HeaderContainer'
 import { ContainerChartIncomeAndExpenses } from './components/ContainerChartIncomeAndExpenses'
-import { ContainerChartCategory } from './components/ContanerChartCategory'
 import { MovimentsController } from '@/controllers/MovimentsController'
 import { EXPENSE, RECIPES } from '@/constants/type'
 import { parseDateFromDDMMYYYY } from '@/services/dates'
+import { parceValueToBRL } from '@/services/format'
 
 export const ReportView = () => {
   const [recipes, setRecipes] = useState([])
@@ -70,23 +70,20 @@ export const ReportView = () => {
 
   function transformData(data) {
     const formattedData = {
-      labels: [], // Dias
-      recipes: [], // Receitas por dia
-      expenses: [] // Despesas por dia
+      labels: [],
+      recipes: [],
+      expenses: []
     }
 
-    // Crie um objeto para mapear o total de receitas e despesas por dia
     const dailyTotals = {}
 
     data.forEach(item => {
       const date = parseDateFromDDMMYYYY(item.date)
 
-      // Se a data ainda não estiver no array de labels, adicione-a
       if (!formattedData.labels.includes(date)) {
         formattedData.labels.push(date)
       }
 
-      // Inicialize os totais diários se ainda não estiverem definidos
       if (!dailyTotals[date]) {
         dailyTotals[date] = {
           recipes: 0,
@@ -94,16 +91,13 @@ export const ReportView = () => {
         }
       }
 
-      // Se for uma receita, adicione ao total de receitas do dia
       if (item.type === RECIPES) {
         dailyTotals[date].recipes += item.price
       } else if (item.type === EXPENSE) {
-        // Se for uma despesa, adicione ao total de despesas do dia
         dailyTotals[date].expenses += item.price
       }
     })
 
-    // Preencha os arrays de receitas e despesas com os valores diários correspondentes
     formattedData.labels.forEach(label => {
       formattedData.recipes.push(dailyTotals[label].recipes)
       formattedData.expenses.push(dailyTotals[label].expenses)
@@ -126,12 +120,21 @@ export const ReportView = () => {
       dataLabels: {
         enabled: false
       },
+      tooltip: {
+        enabled: true, 
+        shared: false, 
+        y: {
+          formatter: function (val) {
+            return parceValueToBRL(val)
+          }
+        }
+      },
       noData: {
-        text: "Sem Dados",
+        text: 'Sem Dados',
         align: 'center',
         verticalAlign: 'middle',
         style: {
-          fontSize: '20px',
+          fontSize: '20px'
         }
       }
     }
@@ -162,9 +165,6 @@ export const ReportView = () => {
                 recipes={recipes}
                 expenses={expenses}
               />
-            </Tab>
-            <Tab key="categorias" title="Categorias">
-              <ContainerChartCategory />
             </Tab>
           </Tabs>
         </div>

@@ -14,6 +14,7 @@ export const authOptions = {
 
           if (user) {
             return {
+              id: user.id,
               name: user.name,
               email: user.email
             }

@@ -2,7 +2,7 @@ import { Input } from '@nextui-org/react'
 import { useMemo, useState } from 'react'
 
 const InputEmail = (props) => {
-  const validateEmail = (value) => value.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i)
+  const validateEmail = (value) => value.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/)
 
   const isInvalid = useMemo(() => {
     if (props.value === '') return false

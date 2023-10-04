@@ -28,7 +28,7 @@ const itemsGastos = [
 
 const AccordionComponent = props => {
   return (
-    <div className="flex">
+    <div className="grid sm:grid-cols-2 grid-cols-1 gap-2">
       <Accordion
         selectionMode="multiple"
         variant="splitted"
@@ -53,34 +53,26 @@ const AccordionComponent = props => {
             callback={props.callback}
           />
         </AccordionItem>
+      </Accordion>
+      <Accordion selectionMode="multiple" variant="splitted">
         <AccordionItem
-          key="3"
+          key="1"
           aria-label="Accordion 3"
+          title={
+            <AccordionSettingsTitle title="Limite de Gastos" />
+          }
+        >
+          <AccordionItemContentSpendingLimit limits={ props.limits} />
+        </AccordionItem>
+        <AccordionItem
+          key="2"
+          aria-label="Accordion 2"
           title={<AccordionSettingsTitle title="Contas a Receber" />}
         >
           <AccordionItemContentAccount
             accounts={props.recipesReceiveWating}
             callback={props.callback}
           />
-        </AccordionItem>
-      </Accordion>
-      <Accordion selectionMode="multiple" variant="splitted">
-        <AccordionItem
-          key="2"
-          aria-label="Accordion 2"
-          title={<AccordionSettingsTitle title="Maiores Gastos do Mês Atual" />}
-        >
-          <AccordionItemContentLargerExpenditures items={itemsGastos} />
-        </AccordionItem>
-
-        <AccordionItem
-          key="3"
-          aria-label="Accordion 3"
-          title={
-            <AccordionSettingsTitle title="Limite de Gastos de Setembro" />
-          }
-        >
-          <AccordionItemContentSpendingLimit />
         </AccordionItem>
       </Accordion>
     </div>

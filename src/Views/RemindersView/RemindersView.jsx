@@ -4,7 +4,6 @@ import { EditIcon } from '@/components/Icons/EditIcon'
 import { EyeIcon } from '@/components/Icons/EyeIcon'
 import { PlusIcon } from '@/components/Icons/Plus'
 import { ModalReminders } from '@/components/Modals/ModalReminders'
-import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { Button, Tooltip } from '@nextui-org/react'
 import {
   Table,

@@ -12,6 +12,10 @@ function getCurrentDateTime() {
   return moment().format('YYYY-MM-DDTHH:mm')
 }
 
+function getCurrentDateToFormatYYYYMMDD() {
+  return moment().format('YYYY-MM-DD')
+}
+
 function currentDate() {
   return moment()
 }
@@ -34,5 +38,6 @@ export {
   currentDate,
   compareDates,
   getNameMonth,
-  getCurrentDateTime
+  getCurrentDateTime,
+  getCurrentDateToFormatYYYYMMDD
 }

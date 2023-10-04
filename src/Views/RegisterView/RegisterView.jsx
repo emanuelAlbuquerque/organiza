@@ -10,12 +10,13 @@ import { ID } from '@/services/generateUUID'
 import { signIn } from 'next-auth/react'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { NotificationAction } from '@/services/notifications'
+import { NotificationContainer } from 'react-notifications'
 
 const RegisterView = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [tel, setTel] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState({ message: '', type: '' })
   const router = useRouter()
@@ -24,55 +25,47 @@ const RegisterView = () => {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      const userByEmail = await UserController.getUserByEmail(email)
-
-      if (!userByEmail) {
-        const user = {
-          id: ID(),
-          name,
-          email,
-          password
-        }
-
-        const userResponse = await UserController.registerUser(user)
-
-        if (userResponse) {
-          setMessage({
-            message: 'Usuário cadastrado com sucesso',
-            type: 'success'
-          })
-
-          const res = await signIn('credentials', {
-            email: userResponse.email + 'jhiho',
-            password: userResponse.password,
-            redirect: false
-          })
-
-          if (res.error) {
-            setMessage({
-              message: 'Erro ao redirecionar a página, tente fazer o login.',
-              type: 'error'
-            })
-            setLoading(false)
-            return null
+    const error = validate()
+  
+    if (!error) {
+      try {
+        const userByEmail = await UserController.getUserByEmail(email)
+  
+        if (!userByEmail) {
+          const user = {
+            id: ID(),
+            name,
+            email,
+            password
           }
-
-          router.push('/')
+  
+          const userResponse = await UserController.registerUser(user)
+  
+          if (userResponse) {
+            NotificationAction.notificationSucesss('Usuário cadastrado com sucesso. Aguarde o login.')
+  
+            const res = await signIn('credentials', {
+              email: userResponse.email,
+              password: userResponse.password,
+              redirect: false
+            })
+  
+            if (res.error) {
+              NotificationAction.notificationError('Erro ao realizar o login. Aguarde um momento.')
+              setLoading(false)
+              return null
+            }
+  
+            router.push('/')
+          } else {
+            NotificationAction.notificationError('Erro ao cadastrar o usuário.')
+          }
         } else {
-          setMessage({
-            message: 'Erro ao cadastrar usuário',
-            type: 'error'
-          })
+          NotificationAction.notificationError('O email informado já está cadastrado.')
         }
-      } else {
-        setMessage({ message: 'O email já está cadastrado', type: 'error' })
+      } catch (error) {
+        NotificationAction.notificationError('Erro ao cadastrar o usuário.' + error.message)
       }
-    } catch (error) {
-      setMessage({
-        message: 'Erro ao cadastrar usuário' + error.message,
-        type: 'error'
-      })
     }
 
     setLoading(false)
@@ -90,8 +83,24 @@ const RegisterView = () => {
     setPassword(e)
   }
 
-  function handleOnChangeSetTel(e) {
-    setTel(e)
+  const validate = () => {
+    if (!password || !email || !name) {
+      NotificationAction.notificationWarning('Informe todos os campos.')
+      return true
+    }
+
+    if (!email.match(/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,3}$/)) {
+      NotificationAction.notificationError('Email inválido.')
+      return true
+    }
+
+    if (!password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)) {
+      NotificationAction.notificationError('Senha inválida.')
+      return true
+    }
+
+    return false
+
   }
 
   return (
@@ -113,17 +122,6 @@ const RegisterView = () => {
             handleOnChange={handleOnChangeSetPassword}
             isValidation
           />
-          <InputTel value={tel} handleOnChange={handleOnChangeSetTel} />
-
-          {message.type === 'error' && (
-            <div className="w-full mt-3">
-              <ActionDanger error={error} />
-            </div>
-          )}
-
-          {message.type === 'success' && (
-            <ActionSuccess message={message.message} />
-          )}
 
           <ButtonSpinner
             onSubimit={handleOnSubmitRegisterUser}
@@ -134,6 +132,8 @@ const RegisterView = () => {
           </ButtonSpinner>
         </form>
       </div>
+
+      <NotificationContainer />
     </div>
   )
 }

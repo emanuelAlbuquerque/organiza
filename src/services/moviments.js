@@ -26,14 +26,18 @@ function statusMoney(money) {
 }
 
 function statusLimit(category) {
-  const porcentage = category.limit / 100 * 
+  const porcentage = category.spending * 100 / category.limit
 
-  if (category.limit !== 0 && category.spending >= category.limit) {
+  if (porcentage > 100) {
+    NotificationAction.notificationWarning(`Você ultrapassou o limite de gastos definido para: ${category.name}`)
+  }
+
+  if (porcentage === 100) {
     NotificationAction.notificationWarning(`Você atingiu o limite de gastos definido para: ${category.name}`)
   }
 
-  if (category.limit !== 0 && category.spending >= category.limit) {
-    NotificationAction.notificationWarning(`Você atingiu o limite de gastos definido para: ${category.name}`)
+  if (porcentage >= 80 && porcentage < 100) {
+    NotificationAction.notificationWarning(`Você está chegando perto de atingir o limite definido em: ${category.name}`)
   }
 }
 

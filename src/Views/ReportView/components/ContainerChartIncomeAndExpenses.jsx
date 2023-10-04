@@ -8,7 +8,10 @@ import {
   TableColumn,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  Scrollable,
+  ScrollShadow,
+  Card
 } from '@nextui-org/react'
 
 const ContainerChartIncomeAndExpenses = props => {
@@ -44,42 +47,47 @@ const ContainerChartIncomeAndExpenses = props => {
 
       <div className="w-full bg-white mt-6">
         <h2 className="text-dark-title text-xl mb-4">Detalhes</h2>
-        <Table removeWrapper aria-label="Example static collection table">
-          <TableHeader>
-            <TableColumn>Período</TableColumn>
-            <TableColumn>entradas</TableColumn>
-            <TableColumn>Saídas</TableColumn>
-            <TableColumn>Resultado</TableColumn>
-            <TableColumn>Saldo</TableColumn>
-          </TableHeader>
-          <TableBody>
-            <TableRow key="1">
-              <TableCell className='first-letter:uppercase'>{getNameMonth(new Date().getMonth())}</TableCell>
-              <TableCell className="text-success-600 font-semibold">
-                {parceValueToBRL(getMoneyByMonth().valueTotalRecipe)}
-              </TableCell>
-              <TableCell className="text-danger-500 font-semibold">
-                {parceValueToBRL(getMoneyByMonth().valueTotalExpense)}
-              </TableCell>
-              <TableCell
-                className={`${
-                  getMoneyByMonth().result >= 0
-                    ? 'text-success-600'
-                    : 'text-danger-500'
-                } font-semibold`}
-              >
-                {parceValueToBRL(getMoneyByMonth().result)}
-              </TableCell>
-              <TableCell
-                className={`${
-                  moneyTotal >= 0 ? 'text-success-600' : 'text-danger-500'
-                } font-semibold`}
-              >
-                {parceValueToBRL(moneyTotal)}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <Card fullWidth>
+          <ScrollShadow>
+
+            <Table removeWrapper aria-label="Example static collection table">
+              <TableHeader>
+                <TableColumn>Período</TableColumn>
+                <TableColumn>entradas</TableColumn>
+                <TableColumn>Saídas</TableColumn>
+                <TableColumn>Resultado</TableColumn>
+                <TableColumn>Saldo</TableColumn>
+              </TableHeader>
+              <TableBody>
+                <TableRow key="1">
+                  <TableCell className='first-letter:uppercase'>{getNameMonth(new Date().getMonth())}</TableCell>
+                  <TableCell className="text-success-600 font-semibold">
+                    {parceValueToBRL(getMoneyByMonth().valueTotalRecipe)}
+                  </TableCell>
+                  <TableCell className="text-danger-500 font-semibold">
+                    {parceValueToBRL(getMoneyByMonth().valueTotalExpense)}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      getMoneyByMonth().result >= 0
+                        ? 'text-success-600'
+                        : 'text-danger-500'
+                    } font-semibold`}
+                  >
+                    {parceValueToBRL(getMoneyByMonth().result)}
+                  </TableCell>
+                  <TableCell
+                    className={`${
+                      moneyTotal >= 0 ? 'text-success-600' : 'text-danger-500'
+                    } font-semibold`}
+                  >
+                    {parceValueToBRL(moneyTotal)}
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </ScrollShadow>
+        </Card>
       </div>
     </>
   )

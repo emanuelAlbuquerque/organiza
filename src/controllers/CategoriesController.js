@@ -13,6 +13,12 @@ class CategoriesController {
 
     return res.data
   }
+
+  static async listLimits() {
+    const res = await request.get(`/categories?type=${EXPENSE}&limit_gte=1&_sort=limit&_order=desc`)
+
+    return res.data
+  }
 }
 
 export {

@@ -27,6 +27,11 @@ export const Header = () => {
           </Link>
         </NavbarItem>
         <NavbarItem>
+          <Link className='text-white' href="releases">
+            Receitas e Despesas
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
           <Link className='text-white' href="investment">
             Investimentos
           </Link>
@@ -57,6 +62,11 @@ export const Header = () => {
             <DropdownItem key="reminders">
               <Link href='/reminders' className='text-dark-title'>
                 Lembretes
+              </Link>
+            </DropdownItem>
+            <DropdownItem key="about">
+              <Link href='/about' className='text-dark-title'>
+                Sobre
               </Link>
             </DropdownItem>
             <DropdownItem key="logout" color="danger" onClick={() => signOut()}>

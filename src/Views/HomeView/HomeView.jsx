@@ -10,6 +10,7 @@ import { MovimentsController } from '@/controllers/MovimentsController'
 import { Loader } from '@/components/Loader/Loader'
 import { getMoneyTotalResp, statusMoney } from '@/services/moviments'
 import { NotificationAction } from '@/services/notifications'
+import { CategoriesController } from '@/controllers/CategoriesController'
 
 export const HomeView = () => {
   const { data: session } = useSession()
@@ -23,6 +24,8 @@ export const HomeView = () => {
   const [moneyTotalExpanse, setMoneyTotalExpanse] = useState(0)
   const [moneyTotalRecipe, setMoneyTotalRecipe] = useState(0)
   const [moneyTotal, setMoneyTotal] = useState(0)
+
+  const [limits, setLimits] = useState([])
 
   const [loading, setLoading] = useState(false)
 
@@ -38,6 +41,8 @@ export const HomeView = () => {
     await listRecipesReceivedByMonth()
     await getTotalMoney()
     await listRecentMoviments()
+    await listLimits()
+    higherExpensesByMonth()
     setLoading(false)
   }
 
@@ -81,12 +86,22 @@ export const HomeView = () => {
     setMoneyTotalRecipe(valueTotal)
   }
 
+  async function listLimits() {
+    const res = await CategoriesController.listLimits()
+
+    setLimits(res)
+  }
+
   async function getTotalMoney() {
     const moneyTotal = await getMoneyTotalResp()
 
     statusMoney(moneyTotal)
 
     setMoneyTotal(moneyTotal)
+  }
+
+  async function higherExpensesByMonth() {
+    const res = await MovimentsController.higherExpensesByMonth()
   }
 
   const openCreateRecipeModal = () => {
@@ -108,8 +123,8 @@ export const HomeView = () => {
         <Loader message="Carregando..." />
       ) : (
         <>
-          <div className="w-full p-8 flex bg-white shadow-xl rounded-lg">
-            <div className="w-8/12">
+          <div className="w-full p-8 grid sm:grid-cols-2 grid-cols-1 bg-white shadow-xl rounded-lg">
+            <div className="">
               <div className="w-full mb-4">
                 <p>Boa Noite,</p>
                 <p className="font-bold text-2xl">{session?.user.name} !</p>
@@ -127,7 +142,7 @@ export const HomeView = () => {
                 />
               </div>
             </div>
-            <div className="w-5/12 ps-8 flex flex-col justify-between">
+            <div className="sm:ps-8 flex flex-col justify-between items-center sm:items-start mt-5 sm:mt-5">
               <h1 className="font-bold text-xl mt-2">Acesso Rapido</h1>
               <div className="flex items-end gap-4">
                 <ButtonFastLink
@@ -148,6 +163,7 @@ export const HomeView = () => {
               recipesReceiveWating={recipesReceiveWating}
               movimentsRecents={movimentsRecent}
               moneyTotal={moneyTotal}
+              limits={limits}
               callback={initComponent}
             />
           </div>
