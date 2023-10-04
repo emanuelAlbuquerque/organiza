@@ -1,6 +1,8 @@
-import React from "react";
-import { Progress } from "@nextui-org/react";
-import { BadgeColor } from "../BadgeColor";
+import React from "react"
+import { Progress } from "@nextui-org/react"
+import { BadgeColor } from "../BadgeColor"
+import { PopoverRegisterLimit } from '../Popovers/PopoverRegisterLimit'
+import { parceValueToBRL } from '@/services/format'
 
 const LimitList = props => {
   return props.items.map(item => (
@@ -8,10 +10,19 @@ const LimitList = props => {
       <BadgeColor color={item.color} />
       <div className="w-full">
         <div className="flex justify-between items-center mb-1">
-          <h2 className="text-sm font-semibold text-dark-title">Alimentação</h2>
-          <p className="text-sm text-dark-title font-semibold">10,00 <span className="text-gray-subtitle">de 30,00</span></p>
+          <h2 className="text-sm font-semibold text-dark-title">{item.name}</h2>
+          {
+            item.limit > 0 && (
+              <p className="text-sm text-dark-title font-semibold">{parceValueToBRL(item.spending)}
+                <span className="text-gray-subtitle"> de {parceValueToBRL(item.limit)}</span>
+              </p>
+            )
+          }
         </div>
-        <Progress size="md" aria-label="Loading..." value={50} />
+        <div className='flex items-center gap-2'>
+          <Progress size="md" aria-label="Loading..." value={item.spending} maxValue={item.limit}/>
+          <PopoverRegisterLimit item={item} callback={ props.callback } />
+        </div>
       </div>
     </div>
 

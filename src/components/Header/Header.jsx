@@ -1,6 +1,8 @@
 import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar} from "@nextui-org/react"
+import { useSession, signOut } from 'next-auth/react'
 
 export const Header = () => {
+  const { data: session } = useSession()
   return (
     <Navbar className='w-full bg-blue-700'>
       <NavbarBrand>
@@ -8,25 +10,25 @@ export const Header = () => {
         <p className="font-bold text-white">UNABANK</p>
       </NavbarBrand>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="hidden sm:flex gap-6" justify="center">
         <NavbarItem>
-          <Link href="#" className='text-white'>
+          <Link href="/" className='text-white'>
             Visão Geral
           </Link>
         </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page" className='text-white'>
+        <NavbarItem>
+          <Link href="report" className='text-white'>
             Relatórios
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link className='text-white' href="#">
-            Limite de Gastos
+          <Link className='text-white' href="limit">
+            Orçamentos
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link href="#" className='text-white'>
-            Categorias
+          <Link className='text-white' href="investment">
+            Investimentos
           </Link>
         </NavbarItem>
       </NavbarContent>
@@ -46,12 +48,18 @@ export const Header = () => {
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
             <DropdownItem key="profile" className="h-14 gap-2">
-              <p className="font-semibold">zoey@example.com</p>
+              <p className="font-semibold">{session?.user.email}</p>
             </DropdownItem>
-            <DropdownItem key="settings">Minha Conta</DropdownItem>
-            <DropdownItem key="configurations">Configurações</DropdownItem>
-            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
-            <DropdownItem key="logout" color="danger">
+            <DropdownItem key="settings" className='text-dark-title'>Minha Conta</DropdownItem>
+            <DropdownItem key="categories">
+              <Link href='/categories' className='text-dark-title'>Categorias</Link>
+            </DropdownItem>
+            <DropdownItem key="reminders">
+              <Link href='/reminders' className='text-dark-title'>
+                Lembretes
+              </Link>
+            </DropdownItem>
+            <DropdownItem key="logout" color="danger" onClick={() => signOut()}>
               Sair
             </DropdownItem>
           </DropdownMenu>

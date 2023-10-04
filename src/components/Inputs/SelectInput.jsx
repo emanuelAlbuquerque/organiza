@@ -1,17 +1,20 @@
-const { Select, Chip, Avatar, SelectItem } = require('@nextui-org/react')
+import { BadgeColor } from '../BadgeColor'
+
+import { Select, Chip, SelectItem } from '@nextui-org/react'
 
 const SelectInput = (props) => {
   return (
     <Select
       items={props.listItems}
       label={props.label}
+      onChange={props.handleOnChange}
       variant="bordered"
       placeholder={props.placeholder}
       labelPlacement="outside"
       classNames={{
-        base: 'max-w-xs',
         trigger: 'min-h-unit-12 py-2'
       }}
+      className='w-full'
       renderValue={items => {
         return (
           <div className="flex flex-wrap gap-2">
@@ -25,15 +28,9 @@ const SelectInput = (props) => {
       {item => (
         <SelectItem key={item.id} textValue={item.name}>
           <div className="flex gap-2 items-center">
-            <Avatar
-              alt={item.name}
-              className="flex-shrink-0"
-              size="sm"
-              src={item.avatar}
-            />
+            <BadgeColor color={item.color} />
             <div className="flex flex-col">
               <span className="text-small">{item.name}</span>
-              <span className="text-tiny text-default-400">{item.email}</span>
             </div>
           </div>
         </SelectItem>

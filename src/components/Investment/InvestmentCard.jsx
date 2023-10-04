@@ -1,102 +1,120 @@
-import {React, useState} from "react";
-
-import {Card, CardHeader, CardBody, Image} from "@nextui-org/react";
-import {Input} from "@nextui-org/react";
-import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-
+import { React, useState } from 'react'
+import { Card, CardBody } from '@nextui-org/react'
+import { Input } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
+import { InvestimentoModal } from '../Modals/IntestmentModal'
+import moment from 'moment'
+import { InputValue } from '../Inputs/InputValue'
+import { ActionDanger } from '../ActionsNotifications/ActionDanger'
 
 const InvestmentCard = props => {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [isOpenModal, setIsOpenModal] = useState(false)
+  const [value, setValue] = useState('')
+  const [date, setDate] = useState('')
+  const rate = 0.05
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
 
-    const [principal, setPrincipal] = useState('');
-    const rate = 0.05;
-    const [time, setTime] = useState('');
-    const [result, setResult] = useState('');
+  const openModal = () => {
+    if (value && date) {
+      previewInvestment()
+      setIsOpenModal(true)
+    } else {
+      setError('Preencha todos os campos')
+    }
+  }
 
-    const handlePrincipalChange = (e) => {
-        setPrincipal(e.target.value);
-    };
+  const closeModal = () => {
+    setIsOpenModal(false)
+  }
 
-    const handleTimeChange = (e) => {
-        setTime(e.target.value);
-    };
+  const handleOnChangeSetValue = e => {
+    setValue(parseFloat(e.target.value))
+  }
 
+  const getDiffDates = date => {
+    const newDate = moment(date, 'YYYY-MM-DD').startOf('day')
+    const currentDate = moment().startOf('day')
+    return newDate.diff(currentDate, 'days')
+  }
 
-    const calculateCompoundInterest = () => {
-        const p = parseFloat(principal);
-        const r = rate;
-        const t = parseFloat(time);
-        const n = 12; 
-        const resultAmount = p * Math.pow(1 + r, n * t);
-    
-        setResult(`O Investimento após ${t} anos renderá R$ ${resultAmount.toFixed(2)}`);
-    };
+  const calculateCompoundInterest = () => {
+    const p = parseFloat(value)
+    const r = rate
+    const t = getDiffDates(date)
+    const n = 12
+    const resultAmount = p * Math.pow(1 + r / n, n * t)
 
-    return (
-        <div className="w-full max-w-5xl m-auto mt-8">
-            <Card className="py-4">
-                <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-                    <p className="text-tiny uppercase font-bold">Qual valor você gostaria de investir?</p>
-                    <Input
-                        type="number"
-                        placeholder="0.00"
-                        value={principal}
-                        onChange={(e) => setPrincipal(parseFloat(e.target.value))}
-                        labelPlacement="outside"
-                        startContent={
-                            <div className="pointer-events-none flex items-center">
-                                <span className="text-default-400 text-small">R$:</span>
-                            </div>
-                        }
-                    />
-                    <p className="text-tiny uppercase font-bold">Por quantos anos você pretende deixar esse dinheiro investido?</p>
-                    <Input
-                        type="number"
-                        placeholder="0"
-                        value={time}
-                        onChange={(e) => setTime(parseInt(e.target.value))}
-                        labelPlacement="outside"
-                    />
+    return resultAmount.toFixed(2)
+  }
 
-                    <>
-                        <Button onPress={onOpen} onClick={calculateCompoundInterest}>Proximo</Button>
-                        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-                            <ModalContent>
-                            {(onClose) => (
-                                <>
-                                <ModalHeader className="flex flex-col gap-1">Investindo na UNABANCK</ModalHeader>
-                                <ModalBody>
-                                    <p> 
-                                    Na Unibanck, quando você decide investir {principal} reais, ao longo de um período de {time} anos, você pode esperar um rendimento de {result} reais.
-                                    Isso demonstra como nossas opções de investimento podem ajudar você a alcançar seus objetivos financeiros de forma eficaz e rentável.
-                                    </p>
-                                </ModalBody>
-                                <ModalFooter>
-                                    <Button color="danger" variant="light" onPress={onClose}>
-                                    Close
-                                    </Button>
-                                    <Button color="primary" onPress={onClose}>
-                                    Action
-                                    </Button>
-                                </ModalFooter>
-                                </>
-                            )}
-                            </ModalContent>
-                        </Modal>
-                    </>
-                </CardHeader>
-                <CardBody className="overflow-visible py-2">
-                    <Image
-                    alt="Card background"
-                    className="object-cover rounded-xl"
-                    src="/images/hero-card-complete.jpeg"
-                    width={270}
-                    />
-                </CardBody>
-            </Card>
-        </div>
-        
+  const confirmInvestment = () => {
+    if (value && date) {
+      const valueTotal = calculateCompoundInterest()
+
+      console.log(valueTotal)
+    } else {
+      setError('Preencha todos os campos')
+    }
+  }
+
+  const previewInvestment = () => {
+    const value = calculateCompoundInterest()
+
+    setMessage(
+      `O Investimento após ${getDiffDates(date)} dia(s) renderá R$ ${value}`
     )
+  }
+
+  return (
+    <div className="w-full max-w-lg m-auto mt-8">
+      <Card className="py-4">
+        <CardBody className="pb-0 pt-2 px-4 flex-col items-start">
+          <div className="w-full mb-5">
+            <InputValue
+              value={value}
+              handleOnChange={handleOnChangeSetValue}
+              label="Qual o valor que deseja investir? "
+            />
+          </div>
+
+          <Input
+            type="date"
+            placeholder="0"
+            label="Qual a data prevista para retirar o investimento?"
+            value={date}
+            onChange={e => setDate(e.target.value)}
+            labelPlacement="outside"
+            className="mb-5"
+          />
+
+          {error && (
+            <div className="my-3 w-full">
+              <ActionDanger error={error} />
+            </div>
+          )}
+
+          <div className="flex justify-between items-center w-full">
+            <Button color="warning" onClick={openModal}>
+              Calcular Investimento
+            </Button>
+            <Button
+              className="bg-blue-700 text-white font-semibold"
+              onClick={() => confirmInvestment()}
+            >
+              Investir
+            </Button>
+          </div>
+        </CardBody>
+      </Card>
+
+      <InvestimentoModal
+        isOpen={isOpenModal}
+        onOpenChange={closeModal}
+        result={message}
+      />
+    </div>
+  )
 }
 
 export { InvestmentCard }

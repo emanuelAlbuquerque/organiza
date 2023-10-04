@@ -11,7 +11,6 @@ const InputText = (props) => {
       value={props.value}
       onValueChange={props.handleOnChange}
       isRequired
-      maxLength={10}
     />
   )
 }

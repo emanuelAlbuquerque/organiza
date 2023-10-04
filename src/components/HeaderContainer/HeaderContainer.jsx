@@ -9,7 +9,7 @@ const HeaderContainer = props => {
       >
         {props.title}
       </h1>
-      <div
+      {/* <div
         style={{
           position: 'absolute',
           left: '50%',
@@ -18,7 +18,7 @@ const HeaderContainer = props => {
         }}
       >
         <PagerMonth />
-      </div>
+      </div> */}
     </div>
   )
 }

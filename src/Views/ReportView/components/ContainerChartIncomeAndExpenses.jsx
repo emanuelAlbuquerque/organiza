@@ -1,4 +1,7 @@
 import { ApexChart } from '@/components/ApexChart/ApexChart'
+import { useAppContext } from '@/hooks/useContext'
+import { getNameMonth } from '@/services/dates'
+import { parceValueToBRL } from '@/services/format'
 import {
   Table,
   TableHeader,
@@ -7,44 +10,36 @@ import {
   TableRow,
   TableCell
 } from '@nextui-org/react'
-import { Link } from '@nextui-org/react'
 
-const option = {
-    chart: {
-      id: 'apexchart-example'
-    },
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+const ContainerChartIncomeAndExpenses = props => {
+  const { moneyTotal } = useAppContext()
+  function getMoneyByMonth() {
+    const valueTotalRecipe = props.recipes.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.price,
+      0
+    )
+
+    const valueTotalExpense = props.expenses.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.price,
+      0
+    )
+
+    const result = valueTotalRecipe - valueTotalExpense
+
+    return {
+      valueTotalRecipe,
+      valueTotalExpense,
+      result
     }
   }
-
-  const series = [
-    {
-      name: 'series-1',
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
-    }
-  ]
-
-const ContainerChartIncomeAndExpenses = () => {
   return (
     <>
       <div className="w-full mt-2 mb-2">
         <p>Despesas X Receitas</p>
       </div>
-      <div className="flex gap-4">
-        <Link href="#" size="sm">
-          Diário
-        </Link>
-        <Link href="#" size="sm">
-          Semanal
-        </Link>
-        <Link href="#" size="sm">
-          Mensal
-        </Link>
-      </div>
 
       <div>
-        <ApexChart type="bar" option={option} series={series} />
+        <ApexChart type="bar" option={props.options} series={props.series} />
       </div>
 
       <div className="w-full bg-white mt-6">
@@ -59,32 +54,29 @@ const ContainerChartIncomeAndExpenses = () => {
           </TableHeader>
           <TableBody>
             <TableRow key="1">
-              <TableCell>01/09/2023</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-            </TableRow>
-            <TableRow key="2">
-              <TableCell>01/09/2023</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-            </TableRow>
-            <TableRow key="3">
-              <TableCell>01/09/2023</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-            </TableRow>
-            <TableRow key="4">
-              <TableCell>01/09/2023</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
-              <TableCell>R$ 0,00</TableCell>
+              <TableCell className='first-letter:uppercase'>{getNameMonth(new Date().getMonth())}</TableCell>
+              <TableCell className="text-success-600 font-semibold">
+                {parceValueToBRL(getMoneyByMonth().valueTotalRecipe)}
+              </TableCell>
+              <TableCell className="text-danger-500 font-semibold">
+                {parceValueToBRL(getMoneyByMonth().valueTotalExpense)}
+              </TableCell>
+              <TableCell
+                className={`${
+                  getMoneyByMonth().result >= 0
+                    ? 'text-success-600'
+                    : 'text-danger-500'
+                } font-semibold`}
+              >
+                {parceValueToBRL(getMoneyByMonth().result)}
+              </TableCell>
+              <TableCell
+                className={`${
+                  moneyTotal >= 0 ? 'text-success-600' : 'text-danger-500'
+                } font-semibold`}
+              >
+                {parceValueToBRL(moneyTotal)}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>

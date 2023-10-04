@@ -87,20 +87,21 @@ export function InputPassword(props) {
         type={isVisible ? 'text' : 'password'}
         className="w-full"
         value={props.value}
-        onValueChange={handleOnChangeCheckPassword}
-        isInvalid={isInvalid}
+        onValueChange={!props.isValidation ? props.handleOnChange : handleOnChangeCheckPassword}
+        isInvalid={!props.inValidation ? false : isInvalid}
         errorMessage={
-          isInvalid &&
+          props.isValidation && isInvalid &&
           'Informe uma senha válida. Que cumpra todos os requisitos!'
         }
         isRequired
       />
 
-      {props.value.length > 0 ? (
+      {props.value.length > 0 && props.isValidation ? (
         <div className="mt-1">
           <ul>
-            {strongPasswordRequirements.map(requeriment => (
+            {strongPasswordRequirements.map((requeriment, index) => (
               <li
+                key={index}
                 className={`${
                   requeriment.fulfilled ? 'text-success' : 'text-danger'
                 } text-xs`}

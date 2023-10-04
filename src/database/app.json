@@ -1,0 +1,228 @@
+{
+  "moviments": [
+    {
+      "id": "d8fa4a2d-d99f-44cb-9802-981f4183c78e",
+      "description": "Teste",
+      "price": 20,
+      "date": "2023-10-03T00:00:00.000Z",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "47d0acc15ac25c1bf962df69311678e78aaed82e"
+    },
+    {
+      "id": "407636d3-ca0b-4346-883b-f64599815f01",
+      "description": "30",
+      "price": 20,
+      "date": "2023-10-06T23:25:00.000Z",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "47d0acc15ac25c1bf962df69311678e78aaed82e"
+    },
+    {
+      "id": "08ad53ab-0187-4a8a-8f26-4604623e58d9",
+      "description": "Teste despesa",
+      "price": 200,
+      "date": "2023-10-03T23:26:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "7e9918cd-2b7e-4b94-a708-2c0b56f19a7e"
+    },
+    {
+      "id": "4d819e29-0261-4990-9b6b-d7e644555f43",
+      "description": "Hello word",
+      "price": 160,
+      "date": "2023-10-03T20:30",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "b4a4f51e-44b1-4ed6-9422-83bca8124fcf"
+    },
+    {
+      "id": "6f482135-4f0e-4ddb-a29b-1034fd314224",
+      "description": "teste money",
+      "price": 50,
+      "date": "2023-10-03T23:39:00.000Z",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "b4a4f51e-44b1-4ed6-9422-83bca8124fcf"
+    },
+    {
+      "id": "241583e2-b4e3-462f-8989-9ef2ce5fde68",
+      "description": "teste message 01",
+      "price": 49,
+      "date": "2023-10-03T23:49:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    },
+    {
+      "id": "d6a5bac7-da2a-402f-bcab-b310c94cdfc8",
+      "description": "Teste 02",
+      "price": 10,
+      "date": "2023-10-03T23:50:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "36e6a18b-5f89-46fb-8b75-12d0507ad1c9"
+    },
+    {
+      "id": "44d94b91-76bd-4995-8103-1b5a039daf9f",
+      "description": "vsajhf",
+      "price": 30,
+      "date": "2023-10-03T23:51:00.000Z",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "47d0acc15ac25c1bf962df69311678e78aaed82e"
+    },
+    {
+      "id": "38f50bed-7e66-486b-92d6-0017a42a3550",
+      "description": "scsav",
+      "price": 21,
+      "date": "2023-10-03T23:51:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "7e9918cd-2b7e-4b94-a708-2c0b56f19a7e"
+    },
+    {
+      "id": "50542417-5937-4f02-8b58-8965ef83b4b0",
+      "description": "Teste 05",
+      "price": 60,
+      "date": "2023-10-03T23:56:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    },
+    {
+      "id": "4850f315-2c1e-491b-8159-933e7b3afda8",
+      "description": "adf",
+      "price": 70,
+      "date": "2023-10-04T00:01:00.000Z",
+      "status": "RECEBIDO",
+      "type": "recipes",
+      "category": "47d0acc15ac25c1bf962df69311678e78aaed82e"
+    },
+    {
+      "id": "7e9e24b6-f589-479a-a025-e96f154b578d",
+      "description": "Teste status limit",
+      "price": 11,
+      "date": "2023-10-04T00:30:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    },
+    {
+      "id": "0002197c-b3e2-4e32-b939-8501aa23e923",
+      "description": "Teste status limit",
+      "price": 11,
+      "date": "2023-10-04T00:32:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    },
+    {
+      "id": "c4306baa-39d3-467d-bc65-7870f1cb0921",
+      "description": "dzvds",
+      "price": 11,
+      "date": "2023-10-04T00:33:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    },
+    {
+      "id": "c4dab7cd-fb9a-4a05-8fda-5de8facb41e5",
+      "description": "fdasf",
+      "price": 12,
+      "date": "2023-10-04T00:34:00.000Z",
+      "status": "PAGO",
+      "type": "expenses",
+      "category": "2a5d4281-545d-4db0-92c7-30e1626c6a12"
+    }
+  ],
+  "categories": [
+    {
+      "id": "2a5d4281-545d-4db0-92c7-30e1626c6a12",
+      "name": "Alimentação",
+      "color": "#e274a8",
+      "limit": 17,
+      "spending": 12,
+      "type": "expenses"
+    },
+    {
+      "id": "7e9918cd-2b7e-4b94-a708-2c0b56f19a7e",
+      "name": "Assinaturas e serviços",
+      "color": "#c671e4",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "36e6a18b-5f89-46fb-8b75-12d0507ad1c9",
+      "name": "Bares e restaurantes",
+      "color": "#626491",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "5a23c12f-7b11-4f0c-8b86-048617ec4c1e",
+      "name": "Casa",
+      "color": "#8193ff",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "f5b25f14-77a1-4f45-a717-6fc0cb2e3c72",
+      "name": "Compras",
+      "color": "#f67cff",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "eb71e2d3-4ca4-4b8b-a8f4-8eaadf01c08e",
+      "name": "Cuidados pessoais",
+      "color": "#ff676d",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "e11a2654-75c8-486a-8bb9-8f4ed1be7c54",
+      "name": "Dívidas e empréstimos",
+      "color": "#ff6c6c",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "81e627845935ad5694ee84c1090b6a0222e455af",
+      "name": "Educação",
+      "color": "#6470ba",
+      "limit": 0,
+      "spending": 0,
+      "type": "expenses"
+    },
+    {
+      "id": "47d0acc15ac25c1bf962df69311678e78aaed82e",
+      "name": "Empréstimos",
+      "color": "#27C498",
+      "limit": 0,
+      "spending": 0,
+      "type": "recipes"
+    },
+    {
+      "id": "b4a4f51e-44b1-4ed6-9422-83bca8124fcf",
+      "name": "Salário",
+      "color": "#a6e88b",
+      "limit": 0,
+      "spending": 0,
+      "type": "recipes"
+    }
+  ],
+  "users": [
+    {
+      "name": "José Emanuel",
+      "email": "emanuelalbuquerque16@gmail.com",
+      "password": "1234"
+    }
+  ]
+}
